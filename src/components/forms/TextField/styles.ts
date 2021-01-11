@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { colors } from '@/styles/colors';
 import { InputHTMLAttributes } from 'react';
+import { colors } from '@/styles/colors';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     withIcon?: boolean;
@@ -9,7 +9,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 export const Input = styled.input<InputProps>`
     width: 100%;
     padding: 18px 18px 15px 18px;
-    padding-left: ${props => props.withIcon ? '52px' : '18px'};
+    padding-left: ${(props) => (props.withIcon ? '52px' : '18px')};
     font-family: RobotoRegular;
     font-size: 14px;
     line-height: 17px;
@@ -32,6 +32,4 @@ export const InputIconWrapper = styled.figure`
     transform: translateY(-50%);
 `;
 
-export const Label = styled.label`
-
-`;
+export const Label = styled.label``;
