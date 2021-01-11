@@ -9,6 +9,11 @@ const GlobalStyle = createGlobalStyle`
   * {
       box-sizing: boder-box;
   }
+
+  figure {
+    margin: 0;
+    padding: 0;
+  }
 `;
 
 export default GlobalStyle;
