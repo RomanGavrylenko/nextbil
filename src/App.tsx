@@ -1,23 +1,30 @@
 import { Formik } from 'formik';
-import React from 'react';
+import React, { useMemo } from 'react';
 import TextField from '@/components/forms/TextField';
 import LockIcon from '@/assets/images/svg/lock.svg';
 import EmailIcon from '@/assets/images/svg/lock.svg';
+import Checkbox from './components/forms/Checkbox';
 
 interface FormValues {
     email: string;
     password: string;
+    terms: boolean;
 }
 
 function App() {
     const initialValues = {
         email: '',
         password: '',
+        terms: false,
     };
 
     const handleSubmit = (values: FormValues) => {
         console.log(values);
     };
+
+    const checkboxLabel = useMemo(() => {
+        return <span>check update</span>;
+    }, []);
 
     return (
         <>
@@ -62,6 +69,16 @@ function App() {
                                 touched={touched['password']}
                                 placeholder="Enter password"
                                 icon={LockIcon}
+                            />
+                            <Checkbox
+                                label={checkboxLabel}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                name="terms"
+                                checked={values['terms']}
+                                error={errors['terms']}
+                                touched={touched['terms']}
+                                type="checkbox"
                             />
                         </form>
                     );
