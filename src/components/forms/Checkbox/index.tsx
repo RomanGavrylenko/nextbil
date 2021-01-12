@@ -1,5 +1,6 @@
 import React, { FC, memo, ReactElement } from 'react';
 import { CommonInputProps } from '@/types/common';
+import { HiddenInput } from '@/components/forms/HiddenInput';
 import { Container } from './styles';
 
 interface CheckboxProps extends CommonInputProps {
@@ -12,8 +13,8 @@ const Checkbox: FC<CheckboxProps> = (props) => {
     return (
         <Container checked={checked}>
             <div className="checkboxLike" />
-            <input {...rest} checked={checked} />
-            <span>{label}</span>
+            <HiddenInput {...rest} checked={checked} />
+            <span className="checkboxLabel">{label}</span>
         </Container>
     );
 };

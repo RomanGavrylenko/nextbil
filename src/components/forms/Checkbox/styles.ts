@@ -1,6 +1,7 @@
 import { HTMLProps } from 'react';
 import styled from 'styled-components';
 import { colors } from '@/styles/colors';
+import { Roboto14 } from '@/styles/fonts/fonts';
 
 interface ContainerProps extends HTMLProps<HTMLLabelElement> {
     checked?: boolean;
@@ -9,12 +10,6 @@ interface ContainerProps extends HTMLProps<HTMLLabelElement> {
 export const Container = styled.label<ContainerProps>`
     display: flex;
     align-items: center;
-
-    input {
-        visibility: hidden;
-        width: 0;
-        height: 0;
-    }
 
     .checkboxLike {
         position: relative;
@@ -35,6 +30,10 @@ export const Container = styled.label<ContainerProps>`
             border-right: 1px solid ${colors.blue};
             transform: translateX(-50%) rotate(45deg);
         }
+    }
+
+    .checkboxLabel {
+        ${Roboto14}
     }
 `;
 

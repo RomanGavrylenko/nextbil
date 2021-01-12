@@ -22,7 +22,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
                     </InputIconWrapper>
                 )}
             </ContainerInput>
-            {error && touched && <ErrorMessage>{error}</ErrorMessage>}
+            <ErrorMessage isShow={!!(error && touched)}>{error}</ErrorMessage>
         </>
     );
 };

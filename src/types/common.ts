@@ -5,3 +5,13 @@ export interface CommonInputProps extends InputHTMLAttributes<HTMLInputElement> 
     touched?: boolean;
     name: string;
 }
+
+export interface OptionItem {
+    label: string;
+    value: string | number;
+}
+
+export enum Gender {
+    MALE,
+    FEMALE,
+}
