@@ -13,12 +13,12 @@ const Radio: React.FC<RadioProps> = (props) => {
 
     const renderItem = (item: OptionItem) => {
         return (
-            <RadioItem selected={item.value === value?.toString()} key={item.value}>
+            <RadioItem selected={item.value.toString() === value} key={item.value}>
                 <HiddenInput
                     {...rest}
                     name={name}
                     value={item.value}
-                    checked={item.value === value?.toString()}
+                    checked={item.value.toString() === value}
                     type="radio"
                 />
                 <div className="radioLike" />

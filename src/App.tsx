@@ -7,12 +7,14 @@ import Checkbox from '@/components/forms/Checkbox';
 import { Button } from '@/components/Button';
 import Radio from '@/components/forms/Radio';
 import { Gender, OptionItem } from '@/types/common';
+import Select from './components/forms/Select';
 
 interface FormValues {
     email: string;
     password: string;
     terms: boolean;
     gender?: Gender;
+    select: string | number;
 }
 
 const genderOptions: Array<OptionItem> = [
@@ -32,6 +34,7 @@ function App() {
         password: '',
         terms: false,
         gender: undefined,
+        select: '',
     };
 
     const handleSubmit = (values: FormValues) => {
@@ -49,10 +52,10 @@ function App() {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 initialErrors={{
-                    email: 'Please enter a valid email address',
+                    select: 'Please enter a valid email address',
                 }}
                 initialTouched={{
-                    email: true,
+                    select: true,
                 }}
             >
                 {(props) => {
@@ -63,9 +66,11 @@ function App() {
                         handleChange,
                         handleBlur,
                         handleSubmit,
+                        setFieldValue,
+                        setFieldTouched,
                     } = props;
                     return (
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} style={{ width: 300 }}>
                             <Checkbox
                                 label={checkboxLabel}
                                 onChange={handleChange}
@@ -86,6 +91,17 @@ function App() {
                                 placeholder="Email"
                                 icon={EmailIcon}
                             />
+
+                            <Radio
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                name="gender"
+                                value={values['gender']}
+                                error={errors['gender']}
+                                touched={touched['gender']}
+                                options={genderOptions}
+                            />
+
                             <TextField
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -96,13 +112,15 @@ function App() {
                                 placeholder="Enter password"
                                 icon={LockIcon}
                             />
-                            <Radio
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                name="gender"
-                                value={values['gender']}
-                                error={errors['gender']}
-                                touched={touched['gender']}
+
+                            <Select
+                                placeholder="Enter password"
+                                setFieldValue={setFieldValue}
+                                setFieldTouched={setFieldTouched}
+                                name="select"
+                                value={values['select']}
+                                error={errors['select']}
+                                touched={touched['select']}
                                 options={genderOptions}
                             />
 

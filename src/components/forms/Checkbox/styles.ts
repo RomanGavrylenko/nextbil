@@ -10,6 +10,7 @@ interface ContainerProps extends HTMLProps<HTMLLabelElement> {
 export const Container = styled.label<ContainerProps>`
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     .checkboxLike {
         position: relative;
