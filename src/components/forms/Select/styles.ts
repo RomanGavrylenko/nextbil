@@ -36,7 +36,7 @@ export const SelectContainer = styled.div`
 
 export const SelectMenuList = styled.ul`
     position: absolute;
-    top: 101%;
+    top: 102%;
     left: 0;
     right: 0;
     max-height: 300px;
@@ -46,11 +46,17 @@ export const SelectMenuList = styled.ul`
     box-shadow: 0px 3px 8px #00000026;
     border-radius: 8px;
     list-style: none;
+    z-index: 2;
+    overflow-y: auto;
 `;
 
-export const SelectMenuItem = styled.li`
+interface SelectMenuItemProps extends HTMLAttributes<HTMLLIElement> {
+    selected: boolean;
+}
+
+export const SelectMenuItem = styled.li<SelectMenuItemProps>`
     padding: 10px 19px;
-    color: ${colors.black};
+    color: ${(props) => (props.selected ? colors.blue : colors.black)};
     transition: 0.2s;
     cursor: pointer;
 

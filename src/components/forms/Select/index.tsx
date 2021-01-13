@@ -22,7 +22,7 @@ const Select: React.FC<SelectProps> = (props) => {
         value,
         error,
         touched,
-        validateOnChange,
+        validateOnChange = true,
         multiple,
         placeholder,
     } = props;
@@ -32,7 +32,7 @@ const Select: React.FC<SelectProps> = (props) => {
 
     const handleSelect = (item: OptionItem) => () => {
         setFieldValue(name, item.value, validateOnChange);
-        if (!touched) setFieldTouched(name, true);
+        if (!touched) setFieldTouched(name, true, true);
         if (!multiple) setIsOpen(false);
 
         document.removeEventListener('click', handleDocumentClick);
@@ -40,7 +40,6 @@ const Select: React.FC<SelectProps> = (props) => {
 
     const handleDocumentClick = useCallback(
         (e: MouseEvent) => {
-            console.log('click');
             if (e.target !== menu.current) {
                 setIsOpen(false);
                 document.removeEventListener('click', handleDocumentClick);
@@ -53,12 +52,15 @@ const Select: React.FC<SelectProps> = (props) => {
         if (!isOpen) {
             document.addEventListener('click', handleDocumentClick);
         }
-
         setIsOpen((isOpen) => !isOpen);
     };
 
     const renderItem = (item: OptionItem) => (
-        <SelectMenuItem onClick={handleSelect(item)} key={item.value}>
+        <SelectMenuItem
+            selected={value === item.value}
+            onClick={handleSelect(item)}
+            key={item.value}
+        >
             {item.label}
         </SelectMenuItem>
     );

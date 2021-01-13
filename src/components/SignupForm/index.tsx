@@ -1,15 +1,21 @@
 import { Formik } from 'formik';
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 import { Gender, OptionItem } from '@/types/common';
 import { formikPropsToProp, selectFormikPropsToProp } from '@/utils/formikPropToProp';
 import Checkbox from '@/components/forms/Checkbox';
 import TextField from '@/components/forms/TextField';
 import LockIcon from '@/assets/images/svg/lock.svg';
 import EmailIcon from '@/assets/images/svg/lock.svg';
-import Radio from '../forms/Radio';
-import Select from '../forms/Select';
-import { Button } from '../Button';
-import { Link } from '../Link';
+import Radio from '@/components/forms/Radio';
+import Select from '@/components/forms/Select';
+import { Button } from '@/components/Button';
+import { Link } from '@/components/Link';
+import { validationSchema } from './validation';
+
+const SubmitButton = styled(Button)`
+    margin-top: 20px;
+`;
 
 interface FormValues {
     name: string;
@@ -17,7 +23,7 @@ interface FormValues {
     password: string;
     terms: boolean;
     gender?: Gender;
-    city: string | number;
+    country: string | number;
 }
 
 const genderOptions: Array<OptionItem> = [
@@ -31,6 +37,13 @@ const genderOptions: Array<OptionItem> = [
     },
 ];
 
+const country = ['Latvia', 'Russia', 'Ukraine', 'England', 'Japan', 'Spain'];
+
+const countryOptions = country.map((item) => ({
+    label: item,
+    value: item,
+}));
+
 export const SignupForms: React.FC<any> = () => {
     const initialValues = {
         name: '',
@@ -38,7 +51,7 @@ export const SignupForms: React.FC<any> = () => {
         password: '',
         terms: false,
         gender: undefined,
-        city: '',
+        country: '',
     };
 
     const handleSubmit = (values: FormValues) => {
@@ -54,9 +67,16 @@ export const SignupForms: React.FC<any> = () => {
     }, []);
 
     return (
-        <Formik<FormValues> initialValues={initialValues} onSubmit={handleSubmit}>
+        <Formik<FormValues>
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            isInitialValid={false}
+            validationSchema={validationSchema}
+            validateOnChange
+            validateOnMount
+        >
             {(props) => {
-                const { values, handleSubmit } = props;
+                const { values, handleSubmit, isValid } = props;
                 return (
                     <form onSubmit={handleSubmit}>
                         <TextField
@@ -74,15 +94,15 @@ export const SignupForms: React.FC<any> = () => {
                         <TextField
                             {...formikPropsToProp<FormValues>('password', props)}
                             value={values['password']}
-                            placeholder="Enter password"
+                            placeholder="Password"
                             icon={LockIcon}
                         />
 
                         <Select
-                            {...selectFormikPropsToProp<FormValues>('city', props)}
-                            placeholder="Enter password"
-                            value={values['city']}
-                            options={genderOptions}
+                            {...selectFormikPropsToProp<FormValues>('country', props)}
+                            placeholder="Select country"
+                            value={values['country']}
+                            options={countryOptions}
                         />
 
                         <Radio
@@ -98,7 +118,9 @@ export const SignupForms: React.FC<any> = () => {
                             type="checkbox"
                         />
 
-                        <Button>sdasdasdas</Button>
+                        <SubmitButton type="submit" disabled={!isValid}>
+                            Sign up
+                        </SubmitButton>
                     </form>
                 );
             }}
