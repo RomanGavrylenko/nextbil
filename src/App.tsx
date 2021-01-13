@@ -8,6 +8,7 @@ import { Button } from '@/components/Button';
 import Radio from '@/components/forms/Radio';
 import { Gender, OptionItem } from '@/types/common';
 import Select from './components/forms/Select';
+import { formikPropsToProp, selectFormikPropsToProp } from './utils/formikPropToProp';
 
 interface FormValues {
     email: string;
@@ -48,7 +49,7 @@ function App() {
     return (
         <>
             <div>Good luck!</div>
-            <Formik
+            <Formik<FormValues>
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 initialErrors={{
@@ -59,68 +60,39 @@ function App() {
                 }}
             >
                 {(props) => {
-                    const {
-                        values,
-                        touched,
-                        errors,
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        setFieldValue,
-                        setFieldTouched,
-                    } = props;
+                    const { values, handleSubmit } = props;
                     return (
                         <form onSubmit={handleSubmit} style={{ width: 300 }}>
                             <Checkbox
+                                {...formikPropsToProp<FormValues>('terms', props)}
                                 label={checkboxLabel}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                name="terms"
                                 checked={values['terms']}
-                                error={errors['terms']}
-                                touched={touched['terms']}
                                 type="checkbox"
                             />
                             <TextField
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                name="email"
+                                {...formikPropsToProp<FormValues>('email', props)}
                                 value={values['email']}
-                                error={errors['email']}
-                                touched={touched['email']}
                                 placeholder="Email"
                                 icon={EmailIcon}
                             />
 
                             <Radio
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                name="gender"
+                                {...formikPropsToProp<FormValues>('gender', props)}
                                 value={values['gender']}
-                                error={errors['gender']}
-                                touched={touched['gender']}
                                 options={genderOptions}
                             />
 
                             <TextField
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                name="password"
+                                {...formikPropsToProp<FormValues>('password', props)}
                                 value={values['password']}
-                                error={errors['password']}
-                                touched={touched['password']}
                                 placeholder="Enter password"
                                 icon={LockIcon}
                             />
 
                             <Select
+                                {...selectFormikPropsToProp<FormValues>('select', props)}
                                 placeholder="Enter password"
-                                setFieldValue={setFieldValue}
-                                setFieldTouched={setFieldTouched}
-                                name="select"
                                 value={values['select']}
-                                error={errors['select']}
-                                touched={touched['select']}
                                 options={genderOptions}
                             />
 
