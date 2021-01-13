@@ -31,6 +31,7 @@ export const SelectField = styled.div<SelectFieldProps>`
 
 export const SelectContainer = styled.div`
     position: relative;
+    margin-bottom: 21px;
 `;
 
 export const SelectMenuList = styled.ul`

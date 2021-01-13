@@ -16,6 +16,7 @@ export const Container = styled.label<ContainerProps>`
         position: relative;
         width: 14px;
         height: 14px;
+        margin-right: 10px;
         border: 1px solid ${colors.blue};
         border-radius: 3px;
 

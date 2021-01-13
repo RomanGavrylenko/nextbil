@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { CommonInputProps, OptionItem } from '@/types/common';
 import { HiddenInput } from '@/components/forms/HiddenInput';
 import { ErrorMessage } from '@/components/forms/ErrorMessage';
+import { FieldWrapper } from '@/components/forms/FieldWrapper';
 import { Container, RadioItem } from './styles';
 
 interface RadioProps extends CommonInputProps {
@@ -28,10 +29,12 @@ const Radio: React.FC<RadioProps> = (props) => {
     };
 
     return (
-        <Container>
-            {options.map(renderItem)}
-            <ErrorMessage isShow={!!(error && touched)}>{error}</ErrorMessage>
-        </Container>
+        <FieldWrapper>
+            <Container>
+                {options.map(renderItem)}
+                <ErrorMessage isShow={!!(error && touched)}>{error}</ErrorMessage>
+            </Container>
+        </FieldWrapper>
     );
 };
 

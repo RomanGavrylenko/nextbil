@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const HiddenInput = styled.input`
-    visibility: hidden;
+    position: absolute;
     width: 0;
     height: 0;
+    visibility: hidden;
 `;

@@ -68,8 +68,6 @@ const Select: React.FC<SelectProps> = (props) => {
         return option?.label || placeholder;
     };
 
-    console.log('select update');
-
     return (
         <SelectContainer>
             <SelectField isEmptyValue={!value} isOpen={isOpen} onClick={handleOpen}>

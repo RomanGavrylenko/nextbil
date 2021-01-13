@@ -1,13 +1,14 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  body, html {
+  body, html, #root {
     padding: 0;
     margin: 0;
+    height: 100%;
   }
 
   * {
-      box-sizing: boder-box;
+      box-sizing: border-box;
   }
 
   figure {
