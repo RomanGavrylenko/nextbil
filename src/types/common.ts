@@ -12,6 +12,6 @@ export interface OptionItem {
 }
 
 export enum Gender {
-    MALE,
-    FEMALE,
+    MALE = 'MALE',
+    FEMALE = 'FEMALE',
 }

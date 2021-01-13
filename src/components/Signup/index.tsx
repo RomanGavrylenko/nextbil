@@ -1,13 +1,29 @@
 import React from 'react';
-import { SignupContainer } from '../SignupContainer';
-import { SignupForms } from '../SignupForm';
-import { Title } from '../TItle';
+import { useMutation } from '@apollo/client';
+import { SignupContainer } from '@/components/SignupContainer';
+import { SignupForms } from '@/components/SignupForm';
+import { Title } from '@/components/Title';
+import { SignupSuccess } from '@/components/SignupSuccess';
+import { USER_SIGNUP } from '@/graphql/user/mutation';
+import { UserMutation, UserSignupInput, UserVariables } from '@/graphql/user/types';
 
-export const Signup: React.FC<any> = () => {
+export const Signup: React.FC<Record<string, unknown>> = () => {
+    const [signup, { data }] = useMutation<UserMutation, UserVariables>(USER_SIGNUP);
+
+    const signUp = (input: UserSignupInput) => {
+        signup({ variables: { input } });
+    };
+
     return (
         <SignupContainer>
-            <Title>Create a new account</Title>
-            <SignupForms />
+            {data?.signup ? (
+                <SignupSuccess name={data.signup.name} email={data.signup.email} />
+            ) : (
+                <>
+                    <Title>Create a new account</Title>
+                    <SignupForms onSubmit={signUp} />
+                </>
+            )}
         </SignupContainer>
     );
 };

@@ -11,19 +11,19 @@ import Radio from '@/components/forms/Radio';
 import Select from '@/components/forms/Select';
 import { Button } from '@/components/Button';
 import { Link } from '@/components/Link';
+import { UserSignupInput } from '@/graphql/user/types';
 import { validationSchema } from './validation';
 
 const SubmitButton = styled(Button)`
     margin-top: 20px;
 `;
 
-interface FormValues {
-    name: string;
-    email: string;
-    password: string;
+interface FormValues extends UserSignupInput {
     terms: boolean;
-    gender?: Gender;
-    country: string | number;
+}
+
+interface SignupFormProps {
+    onSubmit: (d: Omit<FormValues, 'terms'>) => void;
 }
 
 const genderOptions: Array<OptionItem> = [
@@ -44,7 +44,7 @@ const countryOptions = country.map((item) => ({
     value: item,
 }));
 
-export const SignupForms: React.FC<any> = () => {
+export const SignupForms: React.FC<SignupFormProps> = ({ onSubmit }) => {
     const initialValues = {
         name: '',
         email: '',
@@ -54,8 +54,9 @@ export const SignupForms: React.FC<any> = () => {
         country: '',
     };
 
-    const handleSubmit = (values: FormValues) => {
-        console.log(values);
+    // eslint-disable-next-line
+    const handleSubmit = ({ terms, ...rest }: FormValues) => {
+        onSubmit(rest);
     };
 
     const checkboxLabel = useMemo(() => {
@@ -83,12 +84,14 @@ export const SignupForms: React.FC<any> = () => {
                             {...formikPropsToProp<FormValues>('name', props)}
                             value={values['name']}
                             placeholder="Enter yur name"
+                            type="text"
                         />
                         <TextField
                             {...formikPropsToProp<FormValues>('email', props)}
                             value={values['email']}
                             placeholder="Email"
                             icon={EmailIcon}
+                            type="email"
                         />
 
                         <TextField
@@ -96,6 +99,7 @@ export const SignupForms: React.FC<any> = () => {
                             value={values['password']}
                             placeholder="Password"
                             icon={LockIcon}
+                            type="password"
                         />
 
                         <Select
@@ -109,6 +113,7 @@ export const SignupForms: React.FC<any> = () => {
                             {...formikPropsToProp<FormValues>('gender', props)}
                             value={values['gender']}
                             options={genderOptions}
+                            type="radio"
                         />
 
                         <Checkbox
