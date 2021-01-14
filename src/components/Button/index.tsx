@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { colors } from '@/styles/colors';
 
 export const Button = styled.button`
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     padding: 20px 0;
     border-radius: 31px;

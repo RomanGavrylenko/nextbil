@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { Gender, OptionItem } from '@/types/common';
+import { ApolloError, FetchResult } from '@apollo/client';
 import { formikPropsToProp, selectFormikPropsToProp } from '@/utils/formikPropToProp';
 import Checkbox from '@/components/forms/Checkbox';
 import TextField from '@/components/forms/TextField';
@@ -9,13 +9,15 @@ import LockIcon from '@/assets/images/svg/lock.svg';
 import EmailIcon from '@/assets/images/svg/lock.svg';
 import Radio from '@/components/forms/Radio';
 import Select from '@/components/forms/Select';
-import { Button } from '@/components/Button';
+import { ButtonWithSpinner } from '@/components/ButtonWithSpinner';
 import { Link } from '@/components/Link';
 import { UserSignupInput } from '@/graphql/user/types';
+import { useSpinner } from '@/hooks/useSpinner';
 import { validationSchema } from './validation';
+import { countryOptions, genderOptions } from './options';
 
-const SubmitButton = styled(Button)`
-    margin-top: 20px;
+const SubmitButton = styled(ButtonWithSpinner)`
+    margin-top: 40px;
 `;
 
 interface FormValues extends UserSignupInput {
@@ -23,28 +25,12 @@ interface FormValues extends UserSignupInput {
 }
 
 interface SignupFormProps {
-    onSubmit: (d: Omit<FormValues, 'terms'>) => void;
+    onSubmit: (d: Omit<FormValues, 'terms'>) => Promise<FetchResult>;
 }
 
-const genderOptions: Array<OptionItem> = [
-    {
-        label: 'Male',
-        value: Gender.MALE,
-    },
-    {
-        label: 'Female',
-        value: Gender.FEMALE,
-    },
-];
-
-const country = ['Latvia', 'Russia', 'Ukraine', 'England', 'Japan', 'Spain'];
-
-const countryOptions = country.map((item) => ({
-    label: item,
-    value: item,
-}));
-
 export const SignupForms: React.FC<SignupFormProps> = ({ onSubmit }) => {
+    const { isShowSpinner, onHideSpinner, onShowSpinner } = useSpinner(false);
+
     const initialValues = {
         name: '',
         email: '',
@@ -56,7 +42,10 @@ export const SignupForms: React.FC<SignupFormProps> = ({ onSubmit }) => {
 
     // eslint-disable-next-line
     const handleSubmit = ({ terms, ...rest }: FormValues) => {
-        onSubmit(rest);
+        onSubmit(rest).catch((e: ApolloError) => {
+            onHideSpinner();
+            alert(e.message);
+        });
     };
 
     const checkboxLabel = useMemo(() => {
@@ -77,9 +66,9 @@ export const SignupForms: React.FC<SignupFormProps> = ({ onSubmit }) => {
             validateOnMount
         >
             {(props) => {
-                const { values, handleSubmit, isValid } = props;
+                const { values, isValid } = props;
                 return (
-                    <form onSubmit={handleSubmit}>
+                    <form>
                         <TextField
                             {...formikPropsToProp<FormValues>('name', props)}
                             value={values['name']}
@@ -123,7 +112,13 @@ export const SignupForms: React.FC<SignupFormProps> = ({ onSubmit }) => {
                             type="checkbox"
                         />
 
-                        <SubmitButton type="submit" disabled={!isValid}>
+                        <SubmitButton
+                            isShowSpinner={isShowSpinner}
+                            onShowSpinner={onShowSpinner}
+                            type="button"
+                            disabled={!isValid}
+                            onClick={() => handleSubmit(values)}
+                        >
                             Sign up
                         </SubmitButton>
                     </form>

@@ -11,8 +11,10 @@ export const Signup: React.FC<Record<string, unknown>> = () => {
     const [signup, { data }] = useMutation<UserMutation, UserVariables>(USER_SIGNUP);
 
     const signUp = (input: UserSignupInput) => {
-        signup({ variables: { input } });
+        return signup({ variables: { input } });
     };
+
+    console.log('update');
 
     return (
         <SignupContainer>
